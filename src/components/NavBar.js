@@ -4,16 +4,15 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-// import { signOutAction } from '../../redux/actions/userActions';
-import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
+import { SignOutUser } from "../redux/actions/index-actions";
+import { useSelector,useDispatch } from 'react-redux';
 
 export const Header = () => {
     const classes = useStyles();
-     const login = true
+    const login = useSelector(state => state.logged.isLogged)
     const dispatch = useDispatch();
     const handleLogout = () => {
-        // dispatch(signOutAction());
+        dispatch(SignOutUser());
     }
     return (
         <div>
@@ -22,11 +21,11 @@ export const Header = () => {
                     <Typography variant="h6" className={classes.title}>Profit House</Typography>
                     {login ? 
                         <>
-                            <Link to='/items' className={classes.navLink}><Button color="inherit">Listings</Button></Link>
-                            <Link to='/login' className={classes.navLink}><Button color="inherit" onClick={handleLogout}>Logout</Button></Link>
+                            <Link to='/home' className={classes.navLink}><Button color="inherit">Listings</Button></Link>
+                            <Link to='/signin' className={classes.navLink}><Button color="inherit" onClick={handleLogout}>Logout</Button></Link>
                         </> :  
                         <>
-                            <Link to='/login' className={classes.navLink}><Button color="inherit">Login</Button></Link>
+                            <Link to='/signin' className={classes.navLink}><Button color="inherit">Login</Button></Link>
                             <Link to='/signup' className={classes.navLink}><Button color="inherit">Sign Up</Button></Link>
                         </>
                     }

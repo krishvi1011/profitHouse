@@ -1,4 +1,7 @@
 import * as React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -19,16 +22,36 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+import { SignInUser } from '../redux/actions/index-actions';
+
 
 const theme = createTheme();
 
 export default function SignUp() { 
+  const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const [genderValue, setGenderValue] = React.useState('female');
+  const login = useSelector(state => state.logged.isLogged)
+  const [dobValue, setDobValue] = React.useState(new Date());
   const handleSubmit = (event) => { 
     event.preventDefault(); 
     const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log(data);
+    var userObj={ 
+      email: data.get('email'),
+      password: data.get('password'),
+      name: data.get('firstName') + data.get('lastName'),
+      gender: genderValue,
+      dob: dobValue
+    }
+    dispatch(SignInUser(userObj))
   };
+  
+  const handleGenderChange = (event) => {
+    setGenderValue(event.target.value)
+  }
+  React.useEffect(() => {
+      if(login)navigate('/home',{replace:true})
+  }, [login]); 
 
   return (
     <ThemeProvider theme={theme}>
@@ -95,7 +118,7 @@ export default function SignUp() {
               <Grid item xs={12}>
                     <FormControl component="fieldset">
                         <FormLabel component="legend">Gender</FormLabel>
-                        <RadioGroup row aria-label="gender" name="row-radio-buttons-group">
+                        <RadioGroup row aria-label="gender" name="row-radio-buttons-group" onChange={handleGenderChange}>
                             <FormControlLabel value="female" control={<Radio />} label="Female" />
                             <FormControlLabel value="male" control={<Radio />} label="Male" />
                             <FormControlLabel value="other" control={<Radio />} label="Other" />
@@ -106,11 +129,11 @@ export default function SignUp() {
                 <Grid item xs={12}>
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DatePicker
+                                value={dobValue}
                                 label="Date of Birth"
-                                // value={value}
-                                // onChange={(newValue) => {
-                                // setValue(newValue);
-                                // }}
+                                onChange={(newValue) => {
+                                  setDobValue(newValue);
+                                }}
                                 renderInput={(params) => <TextField {...params} />}
                             />
                         </LocalizationProvider>

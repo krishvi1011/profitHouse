@@ -1,17 +1,18 @@
+import {LOGIN_CONSTANTS, MF_CONSTANTS} from "./constants"
 export const SignInUser = (userObj) => {
     return {
-        type: 'SIGN_IN',
+        type: LOGIN_CONSTANTS.SIGN_IN,
         payload: userObj
     }
 }
 export const SignOutUser = () => {
     return {
-        type: 'SIGN_OUT'
+        type: LOGIN_CONSTANTS.SIGN_OUT
     }
 }
 export const SetMFList = (MFList) => {
     return {
-        type: 'SET_MF',
+        type: MF_CONSTANTS.SET_MF,
         payload: MFList
     }
 }

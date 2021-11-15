@@ -4,6 +4,7 @@ import NotFound from './pages/NotFound';
 import SignUp from './pages/SignUp';
 import Login from './pages/SignIn';
 import Dashboard from './pages/ListingPage';
+import RequireAuth from './protectedRoute';
 
 function App() {
   return (
@@ -12,7 +13,9 @@ function App() {
       <Routes>
         <Route exact path="/signup" element={<SignUp />} />
         <Route exact path="/signin" element={<Login />} />
-        <Route exact path="/home" element={<Dashboard />} />
+        <Route element={<RequireAuth />}>
+            <Route path="/home" element={<Dashboard />} />
+        </Route>
         <Route element={<NotFound />} />
       </Routes>
     </div>

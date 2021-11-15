@@ -1,10 +1,11 @@
 import * as React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -13,20 +14,30 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+import { SignInUser } from '../redux/actions/index-actions';
 
 
 const theme = createTheme();
 
 export default function SignIn() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const login = useSelector(state => state.logged.isLogged)
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
+    var userObj={ 
       email: data.get('email'),
       password: data.get('password'),
-    });
+      name: "",
+      gender: "",
+      dob: ""
+    }
+    dispatch(SignInUser(userObj))
   };
+  React.useEffect(() => {
+    if(login)navigate('/home',{replace:true})
+  }, [login]);  
 
   return (
     <ThemeProvider theme={theme}>
