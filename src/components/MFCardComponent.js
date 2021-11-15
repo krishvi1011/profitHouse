@@ -5,6 +5,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import {makeStyles} from '@material-ui/core'
 
 const bull = (
   <Box
@@ -15,23 +16,22 @@ const bull = (
   </Box>
 );
 
-export default function MFCard() {
+export default function MFCard({fund_house,scheme_type,scheme_category,scheme_code}) {
+  const classes = useStyles();
   return (
-    <Card sx={{ minWidth: 275 }}>
+    <Card className={classes.root} sx={{ minWidth: 275 }}>
       <CardContent>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Word of the Day
+          {scheme_code}
         </Typography>
         <Typography variant="h5" component="div">
-          be{bull}nev{bull}o{bull}lent
+          {fund_house}
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          adjective
+          {scheme_category}
         </Typography>
         <Typography variant="body2">
-          well meaning and kindly.
-          <br />
-          {'"a benevolent smile"'}
+          {scheme_type}
         </Typography>
       </CardContent>
       <CardActions>
@@ -40,3 +40,14 @@ export default function MFCard() {
     </Card>
   );
 }
+
+const useStyles = makeStyles({
+  root: {
+    minWidth: 235,
+    width: 320,
+    height: 200,
+    margin: '0.75rem',
+    padding: '1rem',
+    display: 'inline-block'
+  },
+});

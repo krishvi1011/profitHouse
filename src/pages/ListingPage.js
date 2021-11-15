@@ -1,25 +1,31 @@
 import { Button, Grid, makeStyles, Modal, Paper } from "@material-ui/core";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SearchBar from "../components/SearchBar";
+import { SetMFList } from "../redux/actions/index-actions"
+import { useSelector, useDispatch } from "react-redux";
+import MFCard from "../components/MFCardComponent";
 
-const getMutualFunds = async () => {
-    const response1 = await fetch(`https://api.mfapi.in/mf/100357`)
-    const response2 = await fetch(`https://api.mfapi.in/mf/100121`)
-    const response3 = await fetch(`https://api.mfapi.in/mf/108048`)
-    const response4 = await fetch(`https://api.mfapi.in/mf/101714`)
-    const response5 = await fetch(`https://api.mfapi.in/mf/146286`)
-    const dataArray= []
-    dataArray.push(await response1.json())
-    dataArray.push(await response2.json())
-    dataArray.push(await response3.json())
-    dataArray.push(await response4.json())
-    dataArray.push(await response5.json())
-    dispatch(SetUserList(dataArray))
-}
-useEffect(() => {
-    getMutualFunds();
-}, [])
+
 function Dashboard() {
+    const getMutualFunds = async () => {
+        const response1 = await fetch(`https://api.mfapi.in/mf/100357`)
+        const response2 = await fetch(`https://api.mfapi.in/mf/100121`)
+        const response3 = await fetch(`https://api.mfapi.in/mf/108048`)
+        const response4 = await fetch(`https://api.mfapi.in/mf/101714`)
+        const response5 = await fetch(`https://api.mfapi.in/mf/146286`)
+        const dataArray= []
+        dataArray.push(await response1.json())
+        dataArray.push(await response2.json())
+        dataArray.push(await response3.json())
+        dataArray.push(await response4.json())
+        dataArray.push(await response5.json())
+        dispatch(SetMFList(dataArray))
+    }
+    const dispatch = useDispatch()
+    useEffect(() => {
+        getMutualFunds();
+    }, [])
+    const mutualFunds = useSelector(state => state.setMF)
     const classes = useStyles();
     return (
         <div>
@@ -31,7 +37,7 @@ function Dashboard() {
                         </Grid>
             </Paper> 
             <Paper elevation={3} className={classes.paper}>
-                <h3 className={classes.name}>Listings</h3>
+                <h3 className={classes.name}>Listings:</h3>
                 <div>
                     {mutualFunds.map((bid, idx) => {
                         var data = bid.meta;
