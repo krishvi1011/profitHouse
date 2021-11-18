@@ -34,7 +34,7 @@ Run `npm install` to install all dependencies on your system
 - [ ] Refresh Feauture on Listings Page
 - [ ] Graph for particular MF listing
 - [ ] User Page and Edit feature
-- [ ] Use of Redux Thunk to make API calls
+- [ ] Use of Redux Thunk to make async API fetch calls while dispatching and action
 - [ ] Use of localStorage to save user state to not lose the state on refresh
 
 ## Available Scripts
